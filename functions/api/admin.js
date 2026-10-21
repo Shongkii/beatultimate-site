@@ -2,7 +2,7 @@
 // GET  ?type=orders|contacts|subscribes  获取列表
 // GET  ?type=order&id=ORDER_NO          获取订单详情
 // POST { action:'updateOrder', orderNo, status }  更新订单状态
-import { verifyAdmin } from './_auth.js';
+import { verifyAdmin } from './auth.js';
 
 export async function onRequest(context) {
   const { request, env } = context;
