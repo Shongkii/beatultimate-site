@@ -1,19 +1,14 @@
-# Cloudflare Pages 项目配置
-# 部署后在 Cloudflare Dashboard 绑定 KV 命名空间和环境变量
+# Cloudflare Pages project config
+# Deploy via Cloudflare Dashboard: connect GitHub repo, output dir = "."
 
-name = "beat-ultimate"
+name = "beatultimate-site"
 compatibility_date = "2024-01-01"
 pages_build_output_dir = "."
 
-# KV 命名空间：存储订单、邮件订阅、管理会话
-# 部署前需在 Cloudflare 创建 KV 命名空间并在此绑定
-[[kv_namespaces]]
-binding = "BEAT_KV"
-id = "your-kv-namespace-id"
+# KV namespace binding is configured in Cloudflare Dashboard, not here.
+# Go to: Pages project -> Settings -> Functions -> KV namespace bindings
+# Variable name: BEAT_KV
 
-# 环境变量（敏感信息建议在 Cloudflare Dashboard 设置，不提交到 GitHub）
-[vars]
-# 管理后台登录密码（部署时在 Cloudflare 设置，此处仅占位）
-ADMIN_PASSWORD = "change-me-in-cloudflare-dashboard"
-# 联系表单接收邮箱
-CONTACT_EMAIL = "LBJ24810236@outlook.com"
+# Environment variables are set in Cloudflare Dashboard:
+# ADMIN_PASSWORD - admin panel login password
+# CONTACT_EMAIL - contact form recipient
