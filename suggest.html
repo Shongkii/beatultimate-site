@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>共创 — Beat Ultimate</title>
+<meta name="description" content="Beat Ultimate 用户共创与建议">
+<meta name="theme-color" content="#000000">
+<script>document.documentElement.classList.add('js');</script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { sans: ['Inter','-apple-system','BlinkMacSystemFont','"SF Pro Display"','"PingFang SC"','"Microsoft YaHei"','sans-serif'] },
+    colors: { ink: '#000000', ink2: '#0a0a0a', mute: '#86868b' }
+  }}};
+</script>
+<style>
+  :root{ --nav-h:48px; }
+  html{ scroll-behavior:smooth; background:#000; }
+  body{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  .nav{ height:var(--nav-h); background:rgba(0,0,0,.72); -webkit-backdrop-filter:saturate(180%) blur(20px); backdrop-filter:saturate(180%) blur(20px); border-bottom:1px solid rgba(255,255,255,.08); }
+  .nav-brand{ font-size:15px; font-weight:600; letter-spacing:.01em; color:#f5f5f7; }
+  .nav-link{ font-size:13px; letter-spacing:.05em; color:rgba(255,255,255,.62); transition:color .3s ease; }
+  .nav-link:hover{ color:#fff; }
+  .nav-toggle{ position:relative; width:44px; height:44px; margin-right:-12px; }
+  .nav-toggle span{ position:absolute; left:12px; right:12px; height:1px; background:#f5f5f7; transition:transform .4s ease,top .4s ease; }
+  .nav-toggle span:nth-child(1){ top:19px; } .nav-toggle span:nth-child(2){ top:25px; }
+  .menu-open .nav-toggle span:nth-child(1){ top:22px; transform:rotate(45deg); }
+  .menu-open .nav-toggle span:nth-child(2){ top:22px; transform:rotate(-45deg); }
+  .mobile-menu{ position:fixed; z-index:40; top:var(--nav-h); left:0; right:0; height:calc(100vh - var(--nav-h)); padding:32px 24px; background:rgba(0,0,0,.94); -webkit-backdrop-filter:blur(24px); backdrop-filter:blur(24px); opacity:0; visibility:hidden; transform:translate3d(0,-12px,0); transition:opacity .45s ease,visibility .45s,transform .45s ease; }
+  .mobile-menu.is-open{ opacity:1; visibility:visible; transform:none; }
+  .mobile-menu a{ display:block; padding:12px 0; font-size:28px; font-weight:600; color:#f5f5f7; }
+  .section{ position:relative; padding-block:clamp(5rem,12vw,9rem); }
+  .label{ font-size:17px; font-weight:500; letter-spacing:.04em; color:#86868b; }
+  .page-title{ font-size:clamp(2.5rem,6vw,5rem); font-weight:600; line-height:1.04; letter-spacing:-.04em; background:linear-gradient(180deg,#fff 30%,#a1a1a6 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+  .form-card{ border-radius:22px; border:1px solid rgba(255,255,255,.07); background:rgba(10,10,10,.72); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); padding:clamp(24px,4vw,48px); }
+  .input{ width:100%; padding:14px 18px; border-radius:14px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:#fff; font-size:14px; transition:border-color .3s; }
+  .input:focus{ outline:none; border-color:rgba(255,255,255,.4); }
+  .input::placeholder{ color:#555; }
+  textarea.input{ resize:vertical; min-height:140px; line-height:1.7; }
+  .btn{ display:inline-flex; align-items:center; justify-content:center; padding:14px 36px; border-radius:980px; font-size:15px; font-weight:500; transition:all .3s ease; cursor:pointer; border:none; }
+  .btn-primary{ background:#fff; color:#000; }
+  .btn-primary:hover{ background:#e8e8e8; transform:translateY(-2px); }
+  .btn-primary:disabled{ background:#333; color:#666; cursor:not-allowed; transform:none; }
+  .tag-btn{ padding:8px 18px; border-radius:980px; border:1px solid rgba(255,255,255,.15); font-size:13px; color:#86868b; transition:all .25s ease; cursor:pointer; background:transparent; }
+  .tag-btn:hover{ border-color:rgba(255,255,255,.4); color:#fff; }
+  .tag-btn.active{ border-color:#fff; color:#fff; background:rgba(255,255,255,.08); }
+  .js .reveal{ opacity:0; transform:translate3d(0,30px,0); }
+  @media (prefers-reduced-motion:reduce){ .js .reveal{ opacity:1; transform:none; } }
+  .success-view{ display:none; }
+  .success-view.show{ display:block; }
+</style>
+</head>
+<body class="bg-ink font-sans font-normal text-white antialiased">
+
+<header id="nav" class="nav fixed inset-x-0 top-0 z-50">
+  <nav class="mx-auto flex h-full max-w-[1080px] items-center justify-between px-6">
+    <a href="index.html" class="nav-brand">Beat Ultimate</a>
+    <ul class="hidden items-center gap-9 md:flex">
+      <li><a class="nav-link" href="index.html#brand">关于</a></li>
+      <li><a class="nav-link" href="shop.html">商店</a></li>
+      <li><a class="nav-link" href="culture.html">文化</a></li>
+      <li><a class="nav-link" href="suggest.html" style="color:#fff">共创</a></li>
+      <li><a class="nav-link" href="index.html#contact">联系</a></li>
+      <li><a class="nav-link" href="#" id="nav-login">登录</a></li>
+    </ul>
+    <button class="nav-toggle md:hidden" type="button" aria-label="菜单"><span></span><span></span></button>
+  </nav>
+</header>
+<div id="mobile-menu" class="mobile-menu md:hidden">
+  <ul>
+    <li><a href="index.html#brand">关于</a></li>
+    <li><a href="shop.html">商店</a></li>
+    <li><a href="culture.html">文化</a></li>
+    <li><a href="suggest.html">共创</a></li>
+    <li><a href="index.html#contact">联系</a></li>
+    <li><a href="#" id="mobile-login">登录</a></li>
+  </ul>
+</div>
+
+<main class="relative z-10">
+
+<!-- 标题 -->
+<section class="section pt-32">
+  <div class="mx-auto max-w-[980px] px-6 text-center">
+    <p class="label reveal">Co-create</p>
+    <h1 class="page-title reveal mt-6" style="--d:.1s">共创</h1>
+    <p class="reveal mt-8 mx-auto max-w-xl text-lg font-light leading-relaxed text-[#86868b]" style="--d:.2s">
+      Beat Ultimate 是一个慢慢生长的品牌。<br>
+      你的每一条建议，我们都会认真阅读。<br>
+      <span class="text-sm text-[#666]">提交的内容仅品牌团队可见，不会公开展示。</span>
+    </p>
+  </div>
+</section>
+
+<!-- 建议表单 -->
+<section class="section pt-0">
+  <div class="mx-auto max-w-[640px] px-6">
+
+    <!-- 表单视图 -->
+    <div id="form-view" class="form-card reveal" style="--d:.1s">
+      <!-- 建议类型标签 -->
+      <div class="mb-6">
+        <p class="text-sm text-[#86868b] mb-3">建议类型（可多选）</p>
+        <div class="flex flex-wrap gap-2" id="tag-group">
+          <button class="tag-btn" data-tag="产品设计">产品设计</button>
+          <button class="tag-btn" data-tag="面料质感">面料质感</button>
+          <button class="tag-btn" data-tag="尺码版型">尺码版型</button>
+          <button class="tag-btn" data-tag="音乐">音乐</button>
+          <button class="tag-btn" data-tag="漫画剧情">漫画剧情</button>
+          <button class="tag-btn" data-tag="品牌方向">品牌方向</button>
+          <button class="tag-btn" data-tag="其他">其他</button>
+        </div>
+      </div>
+
+      <!-- 建议内容 -->
+      <div class="mb-6">
+        <label class="text-sm text-[#86868b] mb-2 block">你的建议 <span class="text-white/40">*</span></label>
+        <textarea class="input" id="suggest-content" placeholder="说说你的想法，任何方面都可以……"></textarea>
+      </div>
+
+      <!-- 联系方式（选填） -->
+      <div class="grid gap-4 sm:grid-cols-2 mb-6">
+        <div>
+          <label class="text-sm text-[#86868b] mb-2 block">昵称（选填）</label>
+          <input class="input" id="suggest-name" placeholder="怎么称呼你">
+        </div>
+        <div>
+          <label class="text-sm text-[#86868b] mb-2 block">联系方式（选填）</label>
+          <input class="input" id="suggest-contact" placeholder="邮箱或手机号">
+        </div>
+      </div>
+
+      <button class="btn btn-primary w-full" id="submit-btn">提交建议</button>
+      <p class="mt-4 text-center text-xs text-[#555]">提交即表示同意我们仅将此内容用于品牌改进，不会公开或分享给第三方</p>
+    </div>
+
+    <!-- 提交成功视图 -->
+    <div id="success-view" class="success-view form-card text-center py-16">
+      <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/5 mb-6">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2 class="text-2xl font-semibold">收到了</h2>
+      <p class="mt-4 text-[#86868b] leading-relaxed">感谢你的建议。<br>我们会认真阅读每一条，好的想法会慢慢落地。</p>
+      <button class="btn btn-primary mt-10" id="submit-another">再写一条</button>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- 登录弹窗 -->
+<div id="login-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 p-6">
+  <div class="w-full max-w-sm rounded-2xl border border-white/10 bg-[#0a0a0a] p-8">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-semibold">登录</h3>
+      <button id="login-close" class="text-[#86868b] hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <div id="login-step1">
+      <p class="text-sm text-[#86868b] mb-4">手机号登录，未注册将自动创建账号</p>
+      <input class="w-full mb-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:border-white/40 focus:outline-none" id="login-phone" type="tel" placeholder="请输入手机号" maxlength="11">
+      <button class="w-full rounded-full bg-white py-3 text-sm font-medium text-black hover:bg-gray-200 transition" id="send-code-btn">获取验证码</button>
+    </div>
+    <div id="login-step2" style="display:none">
+      <p class="text-sm text-[#86868b] mb-4">验证码已发送至 <span id="phone-display" class="text-white"></span></p>
+      <input class="w-full mb-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:border-white/40 focus:outline-none" id="login-code" type="text" placeholder="请输入验证码" maxlength="6">
+      <button class="w-full rounded-full bg-white py-3 text-sm font-medium text-black hover:bg-gray-200 transition" id="verify-code-btn">登录</button>
+      <button class="w-full mt-3 rounded-full border border-white/20 py-3 text-sm text-white hover:border-white/50 transition" id="back-phone-btn">返回</button>
+    </div>
+    <div id="login-step3" style="display:none" class="text-center py-6">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-500/20 mb-4">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <p class="text-lg font-medium">登录成功</p>
+      <p class="text-sm text-[#86868b] mt-2" id="welcome-phone"></p>
+    </div>
+  </div>
+</div>
+
+<footer class="relative z-10 border-t border-white/[0.08] bg-ink">
+  <div class="mx-auto max-w-[1080px] px-6 py-12 text-center">
+    <div class="wordmark mx-auto mb-8 w-[clamp(200px,30vw,300px)]">
+      <img src="assets/logo-wordmark.jpg" alt="BEAT ULTIMATE" style="width:100%;filter:invert(1) contrast(1.25);">
+    </div>
+    <p class="text-xs text-[#86868b]">© 2026 Beat Ultimate · 彼优（昆明）文化创意有限公司 保留所有权利</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+// ========== 建议类型标签（多选） ==========
+const selectedTags = new Set();
+document.querySelectorAll('#tag-group .tag-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const tag = btn.dataset.tag;
+    if (selectedTags.has(tag)) {
+      selectedTags.delete(tag);
+      btn.classList.remove('active');
+    } else {
+      selectedTags.add(tag);
+      btn.classList.add('active');
+    }
+  });
+});
+
+// ========== 提交建议 ==========
+document.getElementById('submit-btn').addEventListener('click', async () => {
+  const content = document.getElementById('suggest-content').value.trim();
+  const name = document.getElementById('suggest-name').value.trim();
+  const contact = document.getElementById('suggest-contact').value.trim();
+
+  if (!content) {
+    alert('请填写建议内容');
+    document.getElementById('suggest-content').focus();
+    return;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = '提交中…';
+
+  const payload = {
+    tags: Array.from(selectedTags),
+    content,
+    name,
+    contact,
+    user: localStorage.getItem('beatult_user') || '',
+    createdAt: new Date().toISOString()
+  };
+
+  // 后端待接：应调用 POST /api/suggest，目前前端模拟
+  // 真实部署后取消下面注释，并删除 setTimeout 模拟部分
+  /*
+  try {
+    const res = await fetch('/api/suggest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || '提交失败');
+  } catch (err) {
+    alert('提交失败，请稍后重试');
+    btn.disabled = false; btn.textContent = '提交建议';
+    return;
+  }
+  */
+
+  // 模拟提交（后端接好后删除这段）
+  await new Promise((r) => setTimeout(r, 800));
+
+  // 显示成功，不展示用户提交的内容
+  document.getElementById('form-view').style.display = 'none';
+  document.getElementById('success-view').classList.add('show');
+
+  // 重置表单
+  document.getElementById('suggest-content').value = '';
+  document.getElementById('suggest-name').value = '';
+  document.getElementById('suggest-contact').value = '';
+  selectedTags.clear();
+  document.querySelectorAll('#tag-group .tag-btn').forEach((b) => b.classList.remove('active'));
+});
+
+// 再写一条
+document.getElementById('submit-another').addEventListener('click', () => {
+  document.getElementById('success-view').classList.remove('show');
+  document.getElementById('form-view').style.display = 'block';
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = false; btn.textContent = '提交建议';
+});
+
+// ========== 淡入 ==========
+function checkReveals() {
+  document.querySelectorAll('.reveal').forEach((el) => {
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.9) {
+      el.style.transition = 'opacity .8s ease, transform .8s ease';
+      el.style.opacity = '1'; el.style.transform = 'none';
+    }
+  });
+}
+window.addEventListener('scroll', checkReveals, { passive: true });
+setTimeout(checkReveals, 100);
+
+// ========== 手机菜单 ==========
+const toggle = document.querySelector('.nav-toggle');
+const menu = document.getElementById('mobile-menu');
+toggle.addEventListener('click', () => {
+  const open = menu.classList.toggle('is-open');
+  document.getElementById('nav').classList.toggle('menu-open', open);
+});
+menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.remove('is-open')));
+
+// ========== 登录弹窗 ==========
+const loginModal = document.getElementById('login-modal');
+function openLogin() {
+  loginModal.classList.remove('hidden'); loginModal.classList.add('flex');
+  document.getElementById('login-step1').style.display = 'block';
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-step3').style.display = 'none';
+}
+function closeLogin() { loginModal.classList.add('hidden'); loginModal.classList.remove('flex'); }
+document.getElementById('nav-login').addEventListener('click', (e) => { e.preventDefault(); openLogin(); });
+document.getElementById('mobile-login').addEventListener('click', (e) => { e.preventDefault(); menu.classList.remove('is-open'); openLogin(); });
+document.getElementById('login-close').addEventListener('click', closeLogin);
+loginModal.addEventListener('click', (e) => { if (e.target === loginModal) closeLogin(); });
+let currentPhone = '';
+document.getElementById('send-code-btn').addEventListener('click', () => {
+  const phone = document.getElementById('login-phone').value.trim();
+  if (!/^1\d{10}$/.test(phone)) { alert('请输入正确的手机号'); return; }
+  currentPhone = phone;
+  document.getElementById('phone-display').textContent = phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  document.getElementById('login-step1').style.display = 'none';
+  document.getElementById('login-step2').style.display = 'block';
+});
+document.getElementById('back-phone-btn').addEventListener('click', () => {
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-step1').style.display = 'block';
+});
+document.getElementById('verify-code-btn').addEventListener('click', () => {
+  const code = document.getElementById('login-code').value.trim();
+  if (code.length < 4) { alert('请输入验证码'); return; }
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-step3').style.display = 'block';
+  document.getElementById('welcome-phone').textContent = currentPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  localStorage.setItem('beatult_user', currentPhone);
+  document.getElementById('nav-login').textContent = currentPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  setTimeout(closeLogin, 1500);
+});
+const savedUser = localStorage.getItem('beatult_user');
+if (savedUser) {
+  document.getElementById('nav-login').textContent = savedUser.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+}
+</script>
+</body>
+</html>

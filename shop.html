@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>商店 — Beat Ultimate</title>
+<meta name="description" content="Beat Ultimate 服饰商店">
+<meta name="theme-color" content="#000000">
+<script>document.documentElement.classList.add('js');</script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { sans: ['Inter','-apple-system','BlinkMacSystemFont','"SF Pro Display"','"PingFang SC"','"Microsoft YaHei"','sans-serif'] },
+    colors: { ink: '#000000', ink2: '#0a0a0a', mute: '#86868b' }
+  }}};
+</script>
+<style>
+  :root{ --nav-h:48px; }
+  html{ scroll-behavior:smooth; background:#000; }
+  body{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  .nav{ height:var(--nav-h); background:rgba(0,0,0,.72); -webkit-backdrop-filter:saturate(180%) blur(20px); backdrop-filter:saturate(180%) blur(20px); border-bottom:1px solid rgba(255,255,255,.08); }
+  .nav-brand{ font-size:15px; font-weight:600; letter-spacing:.01em; color:#f5f5f7; }
+  .nav-link{ font-size:13px; letter-spacing:.05em; color:rgba(255,255,255,.62); transition:color .3s ease; }
+  .nav-link:hover{ color:#fff; }
+  .nav-toggle{ position:relative; width:44px; height:44px; margin-right:-12px; }
+  .nav-toggle span{ position:absolute; left:12px; right:12px; height:1px; background:#f5f5f7; transition:transform .4s ease,top .4s ease; }
+  .nav-toggle span:nth-child(1){ top:19px; } .nav-toggle span:nth-child(2){ top:25px; }
+  .menu-open .nav-toggle span:nth-child(1){ top:22px; transform:rotate(45deg); }
+  .menu-open .nav-toggle span:nth-child(2){ top:22px; transform:rotate(-45deg); }
+  .mobile-menu{ position:fixed; z-index:40; top:var(--nav-h); left:0; right:0; height:calc(100vh - var(--nav-h)); padding:32px 24px; background:rgba(0,0,0,.94); -webkit-backdrop-filter:blur(24px); backdrop-filter:blur(24px); opacity:0; visibility:hidden; transform:translate3d(0,-12px,0); transition:opacity .45s ease,visibility .45s,transform .45s ease; }
+  .mobile-menu.is-open{ opacity:1; visibility:visible; transform:none; }
+  .mobile-menu a{ display:block; padding:12px 0; font-size:28px; font-weight:600; color:#f5f5f7; }
+  .section{ position:relative; padding-block:clamp(5rem,12vw,9rem); }
+  .label{ font-size:17px; font-weight:500; letter-spacing:.04em; color:#86868b; }
+  .page-title{ font-size:clamp(2.5rem,6vw,5rem); font-weight:600; line-height:1.04; letter-spacing:-.04em; background:linear-gradient(180deg,#fff 30%,#a1a1a6 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+  .product-card{ position:relative; overflow:hidden; border-radius:22px; border:1px solid rgba(255,255,255,.07); background:rgba(10,10,10,.72); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); transition:border-color .4s ease,transform .4s ease,box-shadow .4s ease; }
+  .product-card:hover{ border-color:rgba(255,255,255,.15); transform:translateY(-4px); box-shadow:0 36px 64px -28px rgba(0,0,0,1); }
+  .product-img{ aspect-ratio:1; background:linear-gradient(135deg,#111,#0a0a0a); display:flex; align-items:center; justify-content:center; }
+  .badge{ display:inline-block; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:500; letter-spacing:.05em; }
+  .channel-btn{ display:flex; align-items:center; justify-content:center; gap:10px; padding:16px 32px; border-radius:980px; font-size:15px; font-weight:500; transition:all .3s ease; text-decoration:none; }
+  .channel-taobao{ background:#fff; color:#000; }
+  .channel-taobao:hover{ background:#e8e8e8; transform:translateY(-2px); }
+  .channel-douyin{ background:transparent; color:#fff; border:1px solid rgba(255,255,255,.25); }
+  .channel-douyin:hover{ border-color:rgba(255,255,255,.6); transform:translateY(-2px); }
+  .js .reveal{ opacity:0; transform:translate3d(0,30px,0); }
+  @media (prefers-reduced-motion:reduce){ .js .reveal{ opacity:1; transform:none; } }
+</style>
+</head>
+<body class="bg-ink font-sans font-normal text-white antialiased">
+
+<header id="nav" class="nav fixed inset-x-0 top-0 z-50">
+  <nav class="mx-auto flex h-full max-w-[1080px] items-center justify-between px-6">
+    <a href="index.html" class="nav-brand">Beat Ultimate</a>
+    <ul class="hidden items-center gap-9 md:flex">
+      <li><a class="nav-link" href="index.html#brand">关于</a></li>
+      <li><a class="nav-link" href="shop.html" style="color:#fff">商店</a></li>
+      <li><a class="nav-link" href="culture.html">文化</a></li>
+      <li><a class="nav-link" href="suggest.html">共创</a></li>
+      <li><a class="nav-link" href="index.html#contact">联系</a></li>
+      <li><a class="nav-link" href="#" id="nav-login">登录</a></li>
+    </ul>
+    <button class="nav-toggle md:hidden" type="button" aria-label="菜单"><span></span><span></span></button>
+  </nav>
+</header>
+<div id="mobile-menu" class="mobile-menu md:hidden">
+  <ul>
+    <li><a href="index.html#brand">关于</a></li>
+    <li><a href="shop.html">商店</a></li>
+    <li><a href="culture.html">文化</a></li>
+    <li><a href="suggest.html">共创</a></li>
+    <li><a href="index.html#contact">联系</a></li>
+    <li><a href="#" id="mobile-login">登录</a></li>
+  </ul>
+</div>
+
+<main class="relative z-10">
+
+<!-- 商店标题 -->
+<section class="section pt-32">
+  <div class="mx-auto max-w-[1080px] px-6">
+    <p class="label reveal">Shop</p>
+    <h1 class="page-title reveal mt-6" style="--d:.1s">服饰系列</h1>
+    <p class="reveal mt-6 max-w-xl text-lg font-light leading-relaxed text-[#86868b]" style="--d:.2s">每一件作品都经过反复打磨。质感优先，拒绝廉价复刻。</p>
+  </div>
+</section>
+
+<!-- 商品展示 -->
+<section class="section pt-0">
+  <div class="mx-auto max-w-[1080px] px-6">
+    <div id="products-container" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div class="col-span-full py-20 text-center text-[#86868b]">加载中…</div>
+    </div>
+  </div>
+</section>
+
+<!-- 购买渠道 -->
+<section class="section pt-0">
+  <div class="mx-auto max-w-[720px] px-6 text-center">
+    <p class="label reveal">购买渠道</p>
+    <h2 class="reveal mt-4 text-2xl font-semibold" style="--d:.05s">前往官方店铺选购</h2>
+    <p class="reveal mt-4 text-sm text-[#86868b]" style="--d:.1s">首批作品在淘宝与抖音同步发售</p>
+    <div class="reveal mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center" style="--d:.15s">
+      <!-- 淘宝链接：替换 href 为你的淘宝店铺地址 -->
+      <a href="#" class="channel-btn channel-taobao" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C4.79 3 3 4.79 3 7v10c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4V7c0-2.21-1.79-4-4-4H7zm2.5 4h5c.28 0 .5.22.5.5s-.22.5-.5.5h-5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm0 3h5c.28 0 .5.22.5.5s-.22.5-.5.5h-5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm0 3h3c.28 0 .5.22.5.5s-.22.5-.5.5h-3c-.28 0-.5-.22-.5-.5s.22-.5.5-.5z"/></svg>
+        淘宝旗舰店
+      </a>
+      <!-- 抖音链接：替换 href 为你的抖音店铺地址 -->
+      <a href="#" class="channel-btn channel-douyin" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1.84-.1z"/></svg>
+        抖音店铺
+      </a>
+    </div>
+    <p class="reveal mt-8 text-xs text-[#555]" style="--d:.2s">链接待配置：在代码中搜索「淘宝链接」「抖音链接」替换 href</p>
+  </div>
+</section>
+
+</main>
+
+<!-- 登录弹窗 -->
+<div id="login-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 p-6">
+  <div class="w-full max-w-sm rounded-2xl border border-white/10 bg-[#0a0a0a] p-8">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-semibold">登录</h3>
+      <button id="login-close" class="text-[#86868b] hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <div id="login-step1">
+      <p class="text-sm text-[#86868b] mb-4">手机号登录，未注册将自动创建账号</p>
+      <input class="w-full mb-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:border-white/40 focus:outline-none" id="login-phone" type="tel" placeholder="请输入手机号" maxlength="11">
+      <button class="w-full rounded-full bg-white py-3 text-sm font-medium text-black hover:bg-gray-200 transition" id="send-code-btn">获取验证码</button>
+    </div>
+    <div id="login-step2" style="display:none">
+      <p class="text-sm text-[#86868b] mb-4">验证码已发送至 <span id="phone-display" class="text-white"></span></p>
+      <input class="w-full mb-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:border-white/40 focus:outline-none" id="login-code" type="text" placeholder="请输入验证码" maxlength="6">
+      <button class="w-full rounded-full bg-white py-3 text-sm font-medium text-black hover:bg-gray-200 transition" id="verify-code-btn">登录</button>
+      <button class="w-full mt-3 rounded-full border border-white/20 py-3 text-sm text-white hover:border-white/50 transition" id="back-phone-btn">返回</button>
+    </div>
+    <div id="login-step3" style="display:none" class="text-center py-6">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-500/20 mb-4">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <p class="text-lg font-medium">登录成功</p>
+      <p class="text-sm text-[#86868b] mt-2" id="welcome-phone"></p>
+    </div>
+  </div>
+</div>
+
+<footer class="relative z-10 border-t border-white/[0.08] bg-ink">
+  <div class="mx-auto max-w-[1080px] px-6 py-12 text-center">
+    <div class="wordmark mx-auto mb-8 w-[clamp(200px,30vw,300px)]">
+      <img src="assets/logo-wordmark.jpg" alt="BEAT ULTIMATE" style="width:100%;filter:invert(1) contrast(1.25);">
+    </div>
+    <p class="text-xs text-[#86868b]">© 2026 Beat Ultimate · 彼优（昆明）文化创意有限公司 保留所有权利</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+// 商品渲染（仅展示，无购物车）
+(async function() {
+  const container = document.getElementById('products-container');
+  const data = await Data.products();
+  if (!data || !data.series || data.series.length === 0) {
+    container.innerHTML = '<div class="col-span-full py-20 text-center text-[#86868b]">暂无商品</div>';
+    return;
+  }
+  let html = '';
+  data.series.forEach((series) => {
+    html += '<div class="col-span-full mb-8 mt-4"><h2 class="text-2xl font-semibold">' + series.name + '</h2><p class="mt-2 text-sm text-[#86868b]">' + (series.subtitle || '') + '</p></div>';
+    series.products.forEach((p) => {
+      const isComing = p.status === 'coming-soon';
+      const isSoldOut = p.status === 'sold-out';
+      html += `
+        <div class="product-card reveal" style="--d:.05s">
+          <div class="product-img">
+            ${p.image ? '<img src="' + p.image + '" alt="' + p.name + '" style="width:100%;height:100%;object-fit:cover;">' : '<span class="text-5xl font-bold text-white/10">ULT</span>'}
+          </div>
+          <div class="p-6">
+            <div class="flex items-start justify-between">
+              <h3 class="text-lg font-semibold">${p.name}</h3>
+              <span class="badge ${isComing ? 'bg-amber-500/20 text-amber-400' : isSoldOut ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}">${isComing ? '即将发布' : isSoldOut ? '已售罄' : '在售'}</span>
+            </div>
+            <p class="mt-2 text-sm text-[#86868b]">${p.description || ''}</p>
+            <p class="mt-4 text-xl font-semibold">${Utils.money(p.price)}</p>
+            ${p.sizes && p.sizes.length > 0 ? '<p class="mt-3 text-xs text-[#666]">尺码：' + p.sizes.join(' / ') + '</p>' : ''}
+          </div>
+        </div>`;
+    });
+  });
+  container.innerHTML = html;
+  function check() {
+    container.querySelectorAll('.reveal').forEach((el) => {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) {
+        el.style.transition = 'opacity .8s ease, transform .8s ease';
+        el.style.opacity = '1'; el.style.transform = 'none';
+      }
+    });
+  }
+  window.addEventListener('scroll', check, { passive: true });
+  setTimeout(check, 100);
+})();
+
+// 手机菜单
+const toggle = document.querySelector('.nav-toggle');
+const menu = document.getElementById('mobile-menu');
+toggle.addEventListener('click', () => {
+  const open = menu.classList.toggle('is-open');
+  document.getElementById('nav').classList.toggle('menu-open', open);
+});
+menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.remove('is-open')));
+
+// 登录弹窗
+const loginModal = document.getElementById('login-modal');
+function openLogin() {
+  loginModal.classList.remove('hidden'); loginModal.classList.add('flex');
+  document.getElementById('login-step1').style.display = 'block';
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-step3').style.display = 'none';
+}
+function closeLogin() { loginModal.classList.add('hidden'); loginModal.classList.remove('flex'); }
+document.getElementById('nav-login').addEventListener('click', (e) => { e.preventDefault(); openLogin(); });
+document.getElementById('mobile-login').addEventListener('click', (e) => { e.preventDefault(); menu.classList.remove('is-open'); openLogin(); });
+document.getElementById('login-close').addEventListener('click', closeLogin);
+loginModal.addEventListener('click', (e) => { if (e.target === loginModal) closeLogin(); });
+let currentPhone = '';
+document.getElementById('send-code-btn').addEventListener('click', () => {
+  const phone = document.getElementById('login-phone').value.trim();
+  if (!/^1\d{10}$/.test(phone)) { alert('请输入正确的手机号'); return; }
+  currentPhone = phone;
+  document.getElementById('phone-display').textContent = phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  document.getElementById('login-step1').style.display = 'none';
+  document.getElementById('login-step2').style.display = 'block';
+});
+document.getElementById('back-phone-btn').addEventListener('click', () => {
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-step1').style.display = 'block';
+});
+document.getElementById('verify-code-btn').addEventListener('click', () => {
+  const code = document.getElementById('login-code').value.trim();
+  if (code.length < 4) { alert('请输入验证码'); return; }
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-step3').style.display = 'block';
+  document.getElementById('welcome-phone').textContent = currentPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  localStorage.setItem('beatult_user', currentPhone);
+  document.getElementById('nav-login').textContent = currentPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  setTimeout(closeLogin, 1500);
+});
+const savedUser = localStorage.getItem('beatult_user');
+if (savedUser) {
+  document.getElementById('nav-login').textContent = savedUser.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+}
+</script>
+</body>
+</html>

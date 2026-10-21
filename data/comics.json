@@ -1,0 +1,26 @@
+{
+  "chapters": [
+    {
+      "id": "ch-001",
+      "number": 1,
+      "title": "起源",
+      "subtitle": "一切从一个节拍开始",
+      "status": "coming-soon",
+      "releaseDate": "2026-12-15",
+      "coverUrl": "",
+      "pages": [],
+      "description": "ULT 的世界初次展开。在城市的地下，一个被遗忘的节拍正在苏醒。"
+    },
+    {
+      "id": "ch-002",
+      "number": 2,
+      "title": "共鸣",
+      "subtitle": "当声音遇见布料",
+      "status": "coming-soon",
+      "releaseDate": "2027-01-01",
+      "coverUrl": "",
+      "pages": [],
+      "description": "音乐与服饰的第一次交汇，ULT 徽章的真正含义揭晓。"
+    }
+  ]
+}

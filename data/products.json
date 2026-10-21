@@ -1,0 +1,50 @@
+{
+  "series": [
+    {
+      "id": "series-001",
+      "name": "系列 001",
+      "subtitle": "首批作品",
+      "status": "coming-soon",
+      "releaseDate": "2026-12-01",
+      "description": "Beat Ultimate 首个服饰系列，极简剪裁与街头质感的平衡。",
+      "products": [
+        {
+          "id": "bu-tee-001",
+          "name": "ULT 徽章短袖 T恤",
+          "category": "tee",
+          "price": 299,
+          "currency": "CNY",
+          "sizes": ["S", "M", "L", "XL"],
+          "colors": ["黑色", "白色"],
+          "status": "coming-soon",
+          "image": "",
+          "description": "280g 重磅纯棉，胸前 ULT 徽章印花，宽松版型。"
+        },
+        {
+          "id": "bu-hoodie-001",
+          "name": "BEAT ULTIMATE 连帽卫衣",
+          "category": "hoodie",
+          "price": 599,
+          "currency": "CNY",
+          "sizes": ["S", "M", "L", "XL"],
+          "colors": ["黑色"],
+          "status": "coming-soon",
+          "image": "",
+          "description": "450g 抓绒面料，后背大字印花，袋鼠口袋。"
+        },
+        {
+          "id": "bu-cap-001",
+          "name": "ULT 徽章棒球帽",
+          "category": "cap",
+          "price": 199,
+          "currency": "CNY",
+          "sizes": ["均码"],
+          "colors": ["黑色"],
+          "status": "coming-soon",
+          "image": "",
+          "description": "六片式结构，正面刺绣 ULT 徽章，可调节后扣。"
+        }
+      ]
+    }
+  ]
+}

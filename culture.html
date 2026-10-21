@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>文化 — Beat Ultimate</title>
+<meta name="description" content="Beat Ultimate 原创音乐与连载漫画">
+<meta name="theme-color" content="#000000">
+<script>document.documentElement.classList.add('js');</script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { sans: ['Inter','-apple-system','BlinkMacSystemFont','"SF Pro Display"','"PingFang SC"','"Microsoft YaHei"','sans-serif'] },
+    colors: { ink: '#000000', ink2: '#0a0a0a', mute: '#86868b' }
+  }}};
+</script>
+<style>
+  :root{ --nav-h:48px; }
+  html{ scroll-behavior:smooth; scroll-padding-top:var(--nav-h); background:#000; }
+  body{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  /* 导航 */
+  .nav{ height:var(--nav-h); background:rgba(0,0,0,.72); -webkit-backdrop-filter:saturate(180%) blur(20px); backdrop-filter:saturate(180%) blur(20px); border-bottom:1px solid rgba(255,255,255,.08); }
+  .nav-brand{ font-size:15px; font-weight:600; letter-spacing:.01em; color:#f5f5f7; }
+  .nav-link{ font-size:13px; letter-spacing:.05em; color:rgba(255,255,255,.62); transition:color .3s ease; }
+  .nav-link:hover{ color:#fff; }
+  .nav-toggle{ position:relative; width:44px; height:44px; margin-right:-12px; }
+  .nav-toggle span{ position:absolute; left:12px; right:12px; height:1px; background:#f5f5f7; transition:transform .4s ease,top .4s ease; }
+  .nav-toggle span:nth-child(1){ top:19px; } .nav-toggle span:nth-child(2){ top:25px; }
+  .menu-open .nav-toggle span:nth-child(1){ top:22px; transform:rotate(45deg); }
+  .menu-open .nav-toggle span:nth-child(2){ top:22px; transform:rotate(-45deg); }
+  .mobile-menu{ position:fixed; z-index:40; top:var(--nav-h); left:0; right:0; height:calc(100vh - var(--nav-h)); padding:32px 24px; background:rgba(0,0,0,.94); -webkit-backdrop-filter:blur(24px); backdrop-filter:blur(24px); opacity:0; visibility:hidden; transform:translate3d(0,-12px,0); transition:opacity .45s ease,visibility .45s,transform .45s ease; }
+  .mobile-menu.is-open{ opacity:1; visibility:visible; transform:none; }
+  .mobile-menu a{ display:block; padding:12px 0; font-size:28px; font-weight:600; color:#f5f5f7; }
+  /* 板块 */
+  .section{ position:relative; padding-block:clamp(5rem,12vw,9rem); }
+  .label{ font-size:17px; font-weight:500; letter-spacing:.04em; color:#86868b; }
+  .page-title{ font-size:clamp(2.5rem,6vw,5rem); font-weight:600; line-height:1.04; letter-spacing:-.04em; background:linear-gradient(180deg,#fff 30%,#a1a1a6 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+  .sub-title{ font-size:clamp(1.8rem,4vw,3rem); font-weight:600; letter-spacing:-.03em; }
+  /* 卡片 */
+  .card{ position:relative; overflow:hidden; border-radius:22px; border:1px solid rgba(255,255,255,.07); background:rgba(10,10,10,.72); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); transition:border-color .4s ease,transform .4s ease,box-shadow .4s ease; }
+  .card:hover{ border-color:rgba(255,255,255,.15); transform:translateY(-4px); box-shadow:0 36px 64px -28px rgba(0,0,0,1); }
+  /* 播放器 */
+  .play-btn{ width:52px; height:52px; border-radius:50%; background:#fff; color:#000; display:flex; align-items:center; justify-content:center; transition:all .3s; cursor:pointer; border:none; flex-shrink:0; }
+  .play-btn:hover{ transform:scale(1.08); }
+  .play-btn.playing{ background:#1a1a1a; color:#fff; }
+  .progress-bar{ height:3px; background:rgba(255,255,255,.1); border-radius:2px; overflow:hidden; }
+  .progress-fill{ height:100%; background:#fff; width:0%; transition:width .1s linear; }
+  /* 漫画封面 */
+  .chapter-cover{ aspect-ratio:3/4; background:linear-gradient(135deg,#111,#0a0a0a); display:flex; align-items:center; justify-content:center; }
+  .chapter-num{ font-size:clamp(2.5rem,6vw,4.5rem); font-weight:700; color:rgba(255,255,255,.08); letter-spacing:-.04em; }
+  /* 淡入 */
+  .js .reveal{ opacity:0; transform:translate3d(0,30px,0); }
+  @media (prefers-reduced-motion:reduce){ .js .reveal{ opacity:1; transform:none; } }
+  .badge{ display:inline-block; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:500; letter-spacing:.05em; }
+</style>
+</head>
+<body class="bg-ink font-sans font-normal text-white antialiased">
+
+<!-- 导航栏 -->
+<header id="nav" class="nav fixed inset-x-0 top-0 z-50">
+  <nav class="mx-auto flex h-full max-w-[1080px] items-center justify-between px-6">
+    <a href="index.html" class="nav-brand">Beat Ultimate</a>
+    <ul class="hidden items-center gap-9 md:flex">
+      <li><a class="nav-link" href="index.html#brand">关于</a></li>
+      <li><a class="nav-link" href="shop.html">商店</a></li>
+      <li><a class="nav-link" href="culture.html" style="color:#fff">文化</a></li>
+      <li><a class="nav-link" href="suggest.html">共创</a></li>
+      <li><a class="nav-link" href="index.html#contact">联系</a></li>
+      <li><a class="nav-link" href="#" id="nav-login">登录</a></li>
+    </ul>
+    <button class="nav-toggle md:hidden" type="button" aria-label="菜单"><span></span><span></span></button>
+  </nav>
+</header>
+<div id="mobile-menu" class="mobile-menu md:hidden">
+  <ul>
+    <li><a href="index.html#brand">关于</a></li>
+    <li><a href="shop.html">商店</a></li>
+    <li><a href="culture.html">文化</a></li>
+    <li><a href="suggest.html">共创</a></li>
+    <li><a href="index.html#contact">联系</a></li>
+    <li><a href="#" id="mobile-login">登录</a></li>
+  </ul>
+</div>
+
+<main class="relative z-10">
+
+<!-- ===== 大板块：文化介绍 ===== -->
+<section class="section pt-32">
+  <div class="mx-auto max-w-[980px] px-6 text-center">
+    <p class="label reveal">Culture</p>
+    <h1 class="page-title reveal mt-6" style="--d:.1s">文化</h1>
+    <p class="reveal mt-8 mx-auto max-w-2xl text-lg font-light leading-relaxed text-[#86868b]" style="--d:.2s">
+      Beat Ultimate 不只是一个服装品牌。我们用音乐构建情绪，用漫画铺展世界观。<br>
+      声音与图像共生，慢慢搭建属于自己的叙事宇宙。
+    </p>
+  </div>
+</section>
+
+<!-- ===== 小块：音乐 ===== -->
+<section class="section pt-0" id="music">
+  <div class="mx-auto max-w-[980px] px-6">
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <p class="label reveal">Music</p>
+        <h2 class="sub-title reveal mt-3" style="--d:.05s">原创音乐</h2>
+      </div>
+      <p class="reveal hidden md:block max-w-xs text-right text-sm text-[#86868b]" style="--d:.1s">每一套服饰系列都搭配专属配乐，声音与服装共生。</p>
+    </div>
+
+    <div id="tracks-container" class="space-y-4">
+      <div class="py-16 text-center text-[#86868b]">加载中…</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 小块：漫画 ===== -->
+<section class="section pt-0" id="comic">
+  <div class="mx-auto max-w-[1080px] px-6">
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <p class="label reveal">Comic</p>
+        <h2 class="sub-title reveal mt-3" style="--d:.05s">连载漫画</h2>
+      </div>
+      <p class="reveal hidden md:block max-w-xs text-right text-sm text-[#86868b]" style="--d:.1s">持续连载，铺展 Beat Ultimate 的世界观，故事长线更新。</p>
+    </div>
+
+    <div id="chapters-container" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="col-span-full py-16 text-center text-[#86868b]">加载中…</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- 登录弹窗 -->
+<div id="login-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 p-6">
+  <div class="card w-full max-w-sm p-8">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-semibold">登录</h3>
+      <button id="login-close" class="text-[#86868b] hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <!-- 步骤1：手机号 -->
+    <div id="login-step1">
+      <p class="text-sm text-[#86868b] mb-4">手机号登录，未注册将自动创建账号</p>
+      <input class="input w-full mb-4" id="login-phone" type="tel" placeholder="请输入手机号" maxlength="11">
+      <button class="btn btn-primary w-full" id="send-code-btn">获取验证码</button>
+    </div>
+    <!-- 步骤2：验证码 -->
+    <div id="login-step2" style="display:none">
+      <p class="text-sm text-[#86868b] mb-4">验证码已发送至 <span id="phone-display" class="text-white"></span></p>
+      <input class="input w-full mb-4" id="login-code" type="text" placeholder="请输入验证码" maxlength="6">
+      <button class="btn btn-primary w-full" id="verify-code-btn">登录</button>
+      <button class="btn btn-ghost w-full mt-3" id="back-phone-btn">返回</button>
+    </div>
+    <!-- 登录成功 -->
+    <div id="login-step3" style="display:none" class="text-center py-6">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-500/20 mb-4">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <p class="text-lg font-medium">登录成功</p>
+      <p class="text-sm text-[#86868b] mt-2" id="welcome-phone"></p>
+    </div>
+  </div>
+</div>
+
+<audio id="audio-player" preload="none"></audio>
+
+<footer class="relative z-10 border-t border-white/[0.08] bg-ink">
+  <div class="mx-auto max-w-[1080px] px-6 py-12 text-center">
+    <div class="wordmark mx-auto mb-8 w-[clamp(200px,30vw,300px)]">
+      <img src="assets/logo-wordmark.jpg" alt="BEAT ULTIMATE" style="width:100%;filter:invert(1) contrast(1.25);">
+    </div>
+    <p class="text-xs text-[#86868b]">© 2026 Beat Ultimate · 彼优（昆明）文化创意有限公司 保留所有权利</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+// ========== 音乐加载 ==========
+(async function() {
+  const container = document.getElementById('tracks-container');
+  const audio = document.getElementById('audio-player');
+  const data = await Data.music();
+
+  if (!data || !data.tracks || data.tracks.length === 0) {
+    container.innerHTML = '<div class="py-16 text-center text-[#86868b]">暂无音乐，即将上线</div>';
+  } else {
+    let currentPlaying = null;
+    let html = '';
+    data.tracks.forEach((t, i) => {
+      const isComing = t.status === 'coming-soon';
+      html += `
+        <div class="card reveal p-6" style="--d:${i * 0.06}s">
+          <div class="flex items-center gap-5">
+            <button class="play-btn ${isComing ? 'opacity-40 cursor-not-allowed' : ''}" data-index="${i}" ${isComing ? 'disabled' : ''}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold truncate">${t.title}</h3>
+                <span class="text-sm text-[#86868b] ml-4">${t.duration}</span>
+              </div>
+              <p class="text-sm text-[#86868b] mt-1">${t.artist} · ${t.album}</p>
+              ${isComing ? '<span class="badge bg-amber-500/20 text-amber-400 mt-2">即将发布</span>' : '<div class="progress-bar mt-3"><div class="progress-fill" data-fill="' + i + '"></div></div>'}
+            </div>
+          </div>
+        </div>`;
+    });
+    container.innerHTML = html;
+
+    container.querySelectorAll('.play-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        const idx = Number(btn.dataset.index);
+        const track = data.tracks[idx];
+        if (currentPlaying === idx && !audio.paused) {
+          audio.pause(); btn.classList.remove('playing');
+          btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+          return;
+        }
+        container.querySelectorAll('.play-btn').forEach((b) => { b.classList.remove('playing'); b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>'; });
+        btn.classList.add('playing');
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+        currentPlaying = idx;
+        if (track.audioUrl) { audio.src = track.audioUrl; audio.play(); }
+        else {
+          let progress = 0; const fill = container.querySelector('[data-fill="' + idx + '"]');
+          const timer = setInterval(() => {
+            progress += 0.4; if (fill) fill.style.width = Math.min(100, progress) + '%';
+            if (progress >= 100 || currentPlaying !== idx) {
+              clearInterval(timer); btn.classList.remove('playing');
+              btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+            }
+          }, 100);
+        }
+      });
+    });
+  }
+})();
+
+// ========== 漫画加载 ==========
+(async function() {
+  const container = document.getElementById('chapters-container');
+  const data = await Data.comics();
+  if (!data || !data.chapters || data.chapters.length === 0) {
+    container.innerHTML = '<div class="col-span-full py-16 text-center text-[#86868b]">暂无章节，即将上线</div>';
+    return;
+  }
+  let html = '';
+  data.chapters.forEach((c, i) => {
+    const isComing = c.status === 'coming-soon';
+    html += `
+      <div class="card reveal" style="--d:${i * 0.06}s">
+        <div class="chapter-cover">
+          ${c.coverUrl ? '<img src="' + c.coverUrl + '" alt="' + c.title + '" style="width:100%;height:100%;object-fit:cover;">' : '<span class="chapter-num">0' + c.number + '</span>'}
+        </div>
+        <div class="p-6">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium tracking-widest text-[#86868b]">第 ${c.number} 话</span>
+            <span class="text-xs ${isComing ? 'text-amber-400' : 'text-green-400'}">${isComing ? '即将发布' : '已更新'}</span>
+          </div>
+          <h3 class="mt-3 text-lg font-semibold">${c.title}</h3>
+          <p class="mt-1 text-sm text-[#86868b]">${c.subtitle || ''}</p>
+          ${c.releaseDate ? '<p class="mt-3 text-xs text-[#555]">预计 ' + c.releaseDate + '</p>' : ''}
+        </div>
+      </div>`;
+  });
+  container.innerHTML = html;
+})();
+
+// ========== 淡入动画 ==========
+function checkReveals() {
+  document.querySelectorAll('.reveal').forEach((el) => {
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.9) {
+      el.style.transition = 'opacity .8s ease, transform .8s ease';
+      el.style.opacity = '1'; el.style.transform = 'none';
+    }
+  });
+}
+window.addEventListener('scroll', checkReveals, { passive: true });
+setTimeout(checkReveals, 100);
+
+// ========== 手机菜单 ==========
+const toggle = document.querySelector('.nav-toggle');
+const menu = document.getElementById('mobile-menu');
+toggle.addEventListener('click', () => {
+  const open = menu.classList.toggle('is-open');
+  document.getElementById('nav').classList.toggle('menu-open', open);
+});
+menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.remove('is-open')));
+
+// ========== 登录弹窗（前端模拟，后端待接） ==========
+const loginModal = document.getElementById('login-modal');
+function openLogin() {
+  loginModal.classList.remove('hidden'); loginModal.classList.add('flex');
+  document.getElementById('login-step1').style.display = 'block';
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-step3').style.display = 'none';
+}
+function closeLogin() { loginModal.classList.add('hidden'); loginModal.classList.remove('flex'); }
+document.getElementById('nav-login').addEventListener('click', (e) => { e.preventDefault(); openLogin(); });
+document.getElementById('mobile-login').addEventListener('click', (e) => { e.preventDefault(); menu.classList.remove('is-open'); openLogin(); });
+document.getElementById('login-close').addEventListener('click', closeLogin);
+loginModal.addEventListener('click', (e) => { if (e.target === loginModal) closeLogin(); });
+
+let currentPhone = '';
+document.getElementById('send-code-btn').addEventListener('click', () => {
+  const phone = document.getElementById('login-phone').value.trim();
+  if (!/^1\d{10}$/.test(phone)) { alert('请输入正确的手机号'); return; }
+  currentPhone = phone;
+  document.getElementById('phone-display').textContent = phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  document.getElementById('login-step1').style.display = 'none';
+  document.getElementById('login-step2').style.display = 'block';
+  // 后端待接：这里应调用 /api/send-code，目前前端模拟
+});
+document.getElementById('back-phone-btn').addEventListener('click', () => {
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-step1').style.display = 'block';
+});
+document.getElementById('verify-code-btn').addEventListener('click', () => {
+  const code = document.getElementById('login-code').value.trim();
+  if (code.length < 4) { alert('请输入验证码'); return; }
+  // 后端待接：这里应调用 /api/verify-code，目前前端模拟任意验证码通过
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-step3').style.display = 'block';
+  document.getElementById('welcome-phone').textContent = currentPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  localStorage.setItem('beatult_user', currentPhone);
+  document.getElementById('nav-login').textContent = currentPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  setTimeout(closeLogin, 1500);
+});
+// 已登录状态
+const savedUser = localStorage.getItem('beatult_user');
+if (savedUser) {
+  document.getElementById('nav-login').textContent = savedUser.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+}
+</script>
+</body>
+</html>

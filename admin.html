@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>管理后台 — Beat Ultimate</title>
+<meta name="theme-color" content="#000000">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { sans: ['Inter','-apple-system','BlinkMacSystemFont','"SF Pro Display"','"PingFang SC"','"Microsoft YaHei"','sans-serif'] },
+    colors: { ink: '#000000', ink2: '#0a0a0a', mute: '#86868b' }
+  }}};
+</script>
+<style>
+  html{ background:#000; }
+  body{ -webkit-font-smoothing:antialiased; }
+  .nav{ height:48px; background:rgba(0,0,0,.72); -webkit-backdrop-filter:saturate(180%) blur(20px); backdrop-filter:saturate(180%) blur(20px); border-bottom:1px solid rgba(255,255,255,.08); }
+  .nav-brand{ font-size:15px; font-weight:600; color:#f5f5f7; }
+  .nav-link{ font-size:13px; letter-spacing:.05em; color:rgba(255,255,255,.62); transition:color .3s; }
+  .nav-link:hover{ color:#fff; }
+  .tab-btn{ padding:8px 20px; border-radius:980px; font-size:13px; font-weight:500; transition:all .3s; cursor:pointer; border:1px solid rgba(255,255,255,.12); background:transparent; color:#86868b; }
+  .tab-btn.active{ background:#fff; color:#000; border-color:#fff; }
+  .card{ border-radius:16px; border:1px solid rgba(255,255,255,.08); background:rgba(10,10,10,.8); padding:20px; }
+  .input{ width:100%; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:#fff; font-size:13px; }
+  .input:focus{ outline:none; border-color:rgba(255,255,255,.4); }
+  .btn{ padding:10px 24px; border-radius:980px; font-size:13px; font-weight:500; cursor:pointer; border:none; transition:all .3s; }
+  .btn-primary{ background:#fff; color:#000; }
+  .btn-primary:hover{ background:#e8e8e8; }
+  .btn-ghost{ background:transparent; color:#fff; border:1px solid rgba(255,255,255,.2); }
+  .status-badge{ padding:3px 10px; border-radius:6px; font-size:11px; font-weight:500; }
+  .row-item{ padding:14px 0; border-bottom:1px solid rgba(255,255,255,.06); }
+  .row-item:last-child{ border-bottom:none; }
+</style>
+</head>
+<body class="bg-ink font-sans text-white antialiased min-h-screen">
+
+<header class="nav fixed inset-x-0 top-0 z-50">
+  <nav class="mx-auto flex h-full max-w-[1080px] items-center justify-between px-6">
+    <a href="index.html" class="nav-brand">Beat Ultimate</a>
+    <div class="flex items-center gap-4">
+      <a href="index.html" class="nav-link hidden md:inline">返回首页</a>
+      <button id="logout-btn" class="nav-link hidden" style="display:none">退出</button>
+    </div>
+  </nav>
+</header>
+
+<main class="relative z-10 pt-24 pb-20">
+<div class="mx-auto max-w-[980px] px-6">
+
+  <!-- 登录界面 -->
+  <div id="login-view" class="mx-auto max-w-md py-20">
+    <h1 class="text-3xl font-semibold text-center">管理后台</h1>
+    <p class="mt-3 text-center text-sm text-[#86868b]">请输入管理密码</p>
+    <div class="mt-8 space-y-4">
+      <input class="input" id="admin-password" type="password" placeholder="管理密码">
+      <button class="btn btn-primary w-full" id="login-btn">登录</button>
+      <p id="login-error" class="hidden text-center text-sm text-red-400">密码错误</p>
+    </div>
+  </div>
+
+  <!-- 管理界面 -->
+  <div id="admin-view" style="display:none">
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-2xl font-semibold">管理后台</h1>
+      <button class="btn btn-ghost" id="logout-btn2">退出登录</button>
+    </div>
+
+    <!-- 标签页 -->
+    <div class="flex gap-3 mb-8">
+      <button class="tab-btn active" data-tab="orders">订单</button>
+      <button class="tab-btn" data-tab="contacts">联系留言</button>
+      <button class="tab-btn" data-tab="subscribes">邮件订阅</button>
+    </div>
+
+    <!-- 订单列表 -->
+    <div id="tab-orders" class="tab-content">
+      <div id="orders-list" class="space-y-3">
+        <p class="text-[#86868b]">加载中…</p>
+      </div>
+    </div>
+
+    <!-- 联系留言 -->
+    <div id="tab-contacts" class="tab-content" style="display:none">
+      <div id="contacts-list" class="space-y-3">
+        <p class="text-[#86868b]">加载中…</p>
+      </div>
+    </div>
+
+    <!-- 邮件订阅 -->
+    <div id="tab-subscribes" class="tab-content" style="display:none">
+      <div id="subscribes-list" class="space-y-3">
+        <p class="text-[#86868b]">加载中…</p>
+      </div>
+    </div>
+
+    <!-- 订单详情弹窗 -->
+    <div id="order-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 p-6">
+      <div class="card w-full max-w-lg">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold">订单详情</h3>
+          <button id="modal-close" class="text-[#86868b] hover:text-white text-xl">&times;</button>
+        </div>
+        <div id="order-detail"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<script src="assets/js/common.js"></script>
+<script>
+const TOKEN_KEY = 'beatult_admin_token';
+let adminToken = localStorage.getItem(TOKEN_KEY) || '';
+
+// 登录状态检查
+if (adminToken) {
+  showAdmin();
+}
+
+// 登录
+document.getElementById('login-btn').addEventListener('click', doLogin);
+document.getElementById('admin-password').addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
+  const password = document.getElementById('admin-password').value;
+  if (!password) return;
+  try {
+    const res = await fetch('/api/admin-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password })
+    });
+    const data = await res.json();
+    if (data.success) {
+      adminToken = data.token;
+      localStorage.setItem(TOKEN_KEY, data.token);
+      showAdmin();
+    } else {
+      document.getElementById('login-error').classList.remove('hidden');
+    }
+  } catch (err) {
+    document.getElementById('login-error').textContent = '网络错误';
+    document.getElementById('login-error').classList.remove('hidden');
+  }
+}
+
+function showAdmin() {
+  document.getElementById('login-view').style.display = 'none';
+  document.getElementById('admin-view').style.display = 'block';
+  loadOrders();
+}
+
+// 退出
+function logout() {
+  adminToken = '';
+  localStorage.removeItem(TOKEN_KEY);
+  location.reload();
+}
+document.getElementById('logout-btn2').addEventListener('click', logout);
+
+// 标签页切换
+document.querySelectorAll('.tab-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach((c) => c.style.display = 'none');
+    document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
+    if (btn.dataset.tab === 'orders') loadOrders();
+    if (btn.dataset.tab === 'contacts') loadContacts();
+    if (btn.dataset.tab === 'subscribes') loadSubscribes();
+  });
+});
+
+// API 请求封装
+async function apiGet(params) {
+  const res = await fetch('/api/admin?' + new URLSearchParams(params), {
+    headers: { 'Authorization': 'Bearer ' + adminToken }
+  });
+  if (res.status === 401) { logout(); return null; }
+  return res.json();
+}
+
+// 加载订单
+async function loadOrders() {
+  const data = await apiGet({ type: 'orders' });
+  const container = document.getElementById('orders-list');
+  if (!data || data.length === 0) {
+    container.innerHTML = '<p class="text-[#86868b] py-10 text-center">暂无订单</p>';
+    return;
+  }
+  container.innerHTML = data.map((o) => `
+    <div class="card row-item cursor-pointer" onclick="viewOrder('${o.orderNo}')">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-mono text-sm">${o.orderNo}</p>
+          <p class="mt-1 text-sm text-[#86868b]">${o.customerName} · ${new Date(o.createdAt).toLocaleString('zh-CN')}</p>
+        </div>
+        <div class="text-right">
+          <p class="font-semibold">${Utils.money(o.total)}</p>
+          <span class="status-badge ${Utils.statusClass(o.status)}">${Utils.statusText(o.status)}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// 查看订单详情
+async function viewOrder(orderNo) {
+  const data = await apiGet({ type: 'order', id: orderNo });
+  if (!data) return;
+  const modal = document.getElementById('order-modal');
+  const detail = document.getElementById('order-detail');
+
+  let itemsHtml = data.items.map((i) => `
+    <div class="flex justify-between py-2 text-sm">
+      <span>${i.name}${i.size ? ' (' + i.size + ')' : ''} × ${i.quantity}</span>
+      <span>${Utils.money(i.subtotal)}</span>
+    </div>
+  `).join('');
+
+  detail.innerHTML = `
+    <div class="space-y-4 text-sm">
+      <div>
+        <p class="text-[#86868b]">订单号</p>
+        <p class="font-mono">${data.orderNo}</p>
+      </div>
+      <div>
+        <p class="text-[#86868b]">商品</p>
+        <div class="mt-1">${itemsHtml}</div>
+        <div class="flex justify-between border-t border-white/10 pt-2 mt-2 font-semibold">
+          <span>合计</span><span>${Utils.money(data.total)}</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-[#86868b]">联系信息</p>
+        <p class="mt-1">${data.customer.name} · ${data.customer.phone}</p>
+        <p class="text-[#86868b]">${data.customer.email}</p>
+      </div>
+      <div>
+        <p class="text-[#86868b]">收货地址</p>
+        <p class="mt-1">${data.shipping.province} ${data.shipping.city} ${data.shipping.address}</p>
+        <p class="text-[#86868b]">${data.shipping.zip || ''}</p>
+      </div>
+      ${data.note ? '<div><p class="text-[#86868b]">备注</p><p class="mt-1">' + data.note + '</p></div>' : ''}
+      <div class="flex gap-2 pt-4 border-t border-white/10">
+        <button class="btn btn-primary flex-1" onclick="updateOrderStatus('${data.orderNo}','paid')">标记已付款</button>
+        <button class="btn btn-ghost flex-1" onclick="updateOrderStatus('${data.orderNo}','shipped')">标记已发货</button>
+      </div>
+    </div>
+  `;
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+document.getElementById('modal-close').addEventListener('click', () => {
+  document.getElementById('order-modal').classList.add('hidden');
+  document.getElementById('order-modal').classList.remove('flex');
+});
+
+async function updateOrderStatus(orderNo, status) {
+  await fetch('/api/admin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
+    body: JSON.stringify({ action: 'updateOrder', orderNo, status })
+  });
+  document.getElementById('order-modal').classList.add('hidden');
+  document.getElementById('order-modal').classList.remove('flex');
+  loadOrders();
+}
+
+// 加载联系留言
+async function loadContacts() {
+  const data = await apiGet({ type: 'contacts' });
+  const container = document.getElementById('contacts-list');
+  if (!data || data.length === 0) {
+    container.innerHTML = '<p class="text-[#86868b] py-10 text-center">暂无留言</p>';
+    return;
+  }
+  container.innerHTML = data.map((c) => `
+    <div class="card">
+      <div class="flex justify-between">
+        <p class="font-medium">${c.name}</p>
+        <p class="text-xs text-[#666]">${new Date(c.createdAt).toLocaleString('zh-CN')}</p>
+      </div>
+      <p class="mt-1 text-sm text-[#86868b]">${c.email}</p>
+      <p class="mt-3 text-sm leading-relaxed">${(c.message || '').substring(0, 200)}${c.message && c.message.length > 200 ? '…' : ''}</p>
+    </div>
+  `).join('');
+}
+
+// 加载订阅
+async function loadSubscribes() {
+  const data = await apiGet({ type: 'subscribes' });
+  const container = document.getElementById('subscribes-list');
+  if (!data || data.length === 0) {
+    container.innerHTML = '<p class="text-[#86868b] py-10 text-center">暂无订阅</p>';
+    return;
+  }
+  container.innerHTML = `<div class="card"><p class="mb-4 text-sm text-[#86868b]">共 ${data.length} 个订阅</p>` +
+    data.map((e) => `<div class="row-item text-sm font-mono">${e}</div>`).join('') + '</div>';
+}
+</script>
+</body>
+</html>

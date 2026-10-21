@@ -1,0 +1,26 @@
+{
+  "tracks": [
+    {
+      "id": "bu-ost-001",
+      "title": "Ultimate Beat",
+      "artist": "Beat Ultimate",
+      "album": "系列 001 原声带",
+      "duration": "3:24",
+      "status": "coming-soon",
+      "audioUrl": "",
+      "coverUrl": "",
+      "description": "系列 001 专属配乐，低沉鼓点与合成器铺底，安静有力量。"
+    },
+    {
+      "id": "bu-ost-002",
+      "title": "Slow Motion",
+      "artist": "Beat Ultimate",
+      "album": "系列 001 原声带",
+      "duration": "4:12",
+      "status": "coming-soon",
+      "audioUrl": "",
+      "coverUrl": "",
+      "description": "慢节奏氛围曲，适合深夜聆听。"
+    }
+  ]
+}
