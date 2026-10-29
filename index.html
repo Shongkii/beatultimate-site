@@ -4,295 +4,39 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Beat Ultimate — 彼优（昆明）文化创意</title>
-<meta name="description" content="Beat Ultimate：潮牌服饰、原创音乐、连载漫画。我们慢慢构建属于自己的故事。">
+<meta name="description" content="Beat Ultimate：潮牌服饰、原创音乐、连载漫画。彼优（昆明）文化创意，慢慢构建属于自己的故事。">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
-
-<!-- 标签页图标：替换为【图B】ULT 纯徽章的 favicon 版本 -->
-<!-- <link rel="icon" href="favicon.png"> -->
 
 <!-- 无 JS 时内容仍然可见 -->
 <script>document.documentElement.classList.add('js');</script>
 <noscript><style>.reveal,.intro{opacity:1!important;transform:none!important}</style></noscript>
 
-<!-- 字体：异步加载，失败自动回退系统字体 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-
-<!-- Tailwind CSS v3 CDN -->
+<!-- Tailwind CSS v3 CDN（JS 模板字符串中使用了工具类） -->
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script>
   tailwind.config = {
     theme: { extend: {
-      fontFamily: { sans: ['Inter','-apple-system','BlinkMacSystemFont','"SF Pro Display"','"PingFang SC"','"Hiragino Sans GB"','"Microsoft YaHei"','"Noto Sans SC"','sans-serif'] },
+      fontFamily: { sans: ['-apple-system','BlinkMacSystemFont','"SF Pro Display"','"SF Pro Text"','"Helvetica Neue"','"PingFang SC"','"Hiragino Sans GB"','"Microsoft YaHei"','"Noto Sans SC"','sans-serif'] },
       colors: { ink: '#000000', ink2: '#0a0a0a', mute: '#86868b' }
     } }
   };
 </script>
 
-<style>
-  /* ============ 设计参数（Apple Design: 字距随字号、行距反比、弹簧参数）============ */
-  :root{
-    --nav-h: 48px;
-    /* 弹簧参数：damping 1.0 = 临界阻尼无回弹，response 越小越快 */
-    --spring-damping: 1.0;
-    --spring-response: 0.4;
-  }
-  html{ scroll-behavior:smooth; scroll-padding-top:var(--nav-h); background:#000; }
-  html.menu-locked{ overflow:hidden; }
-  body{
-    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    text-rendering:optimizeLegibility; font-optical-sizing:auto;
-  }
-  ::selection{ background:rgba(255,255,255,.25); }
-  a:focus-visible,button:focus-visible{ outline:2px solid rgba(255,255,255,.75); outline-offset:4px; border-radius:6px; }
-
-  /* ============ 导航栏：毛玻璃材质，滚动边缘效果而非硬分割 ============ */
-  .nav{
-    height:var(--nav-h);
-    background:rgba(0,0,0,.32);
-    -webkit-backdrop-filter:saturate(180%) blur(20px);
-    backdrop-filter:saturate(180%) blur(20px);
-    border-bottom:1px solid transparent;
-    /* 材质变化由 JS 弹簧驱动，这里只设初始态 */
-    transition:border-color .4s ease;
-  }
-  .nav.is-scrolled{
-    background:rgba(0,0,0,.72);
-    border-bottom-color:rgba(255,255,255,.08);
-  }
-  .nav.menu-open{ background:#000; border-bottom-color:transparent; }
-  .nav-brand{ font-size:15px; font-weight:600; letter-spacing:.01em; color:#f5f5f7; }
-  .nav-link{
-    font-size:13px; letter-spacing:.05em; color:rgba(255,255,255,.62);
-    transition:color .3s ease;
-  }
-  .nav-link:hover{ color:#fff; }
-  /* 汉堡按钮：pointer-down 即时反馈 */
-  .nav-toggle{ position:relative; width:44px; height:44px; margin-right:-12px; }
-  .nav-toggle span{ position:absolute; left:12px; right:12px; height:1px; background:#f5f5f7; transition:transform .4s ease,top .4s ease; }
-  .nav-toggle span:nth-child(1){ top:19px; } .nav-toggle span:nth-child(2){ top:25px; }
-  .menu-open .nav-toggle span:nth-child(1){ top:22px; transform:rotate(45deg); }
-  .menu-open .nav-toggle span:nth-child(2){ top:22px; transform:rotate(-45deg); }
-  .nav-toggle:active{ transform:scale(.94); transition:transform .1s ease-out; }
-
-  /* 手机菜单：从导航下方同路径展开/收起（空间一致性） */
-  .mobile-menu{
-    position:fixed; z-index:40; top:var(--nav-h); left:0; right:0;
-    height:calc(100vh - var(--nav-h)); height:calc(100dvh - var(--nav-h));
-    padding:32px 24px; background:rgba(0,0,0,.94);
-    -webkit-backdrop-filter:blur(24px); backdrop-filter:blur(24px);
-    opacity:0; visibility:hidden;
-    transform:translate3d(0,-12px,0);
-    transition:opacity .45s ease,visibility .45s,transform .45s ease;
-  }
-  .mobile-menu.is-open{ opacity:1; visibility:visible; transform:none; }
-  .mobile-menu li{ opacity:0; transform:translate3d(0,8px,0); transition:opacity .5s ease,transform .5s ease; transition-delay:calc(var(--i)*.05s + .1s); }
-  .mobile-menu.is-open li{ opacity:1; transform:none; }
-  .mobile-menu a{ display:block; padding:12px 0; font-size:28px; font-weight:600; letter-spacing:-.01em; color:#f5f5f7; transition:color .3s ease; }
-  .mobile-menu a:hover{ color:#86868b; }
-
-  /* ============ Hero 首屏 ============ */
-  .hero{ min-height:100vh; min-height:100svh; }
-  .hero-group{ will-change:transform,opacity; }
-  /* 大标题：负字距随字号收紧，紧行距，白到浅灰柔和渐变 */
-  .hero-title{
-    font-size:clamp(3.5rem,10.5vw,9.5rem);
-    font-weight:600; line-height:1.04; letter-spacing:-.045em;
-    background:linear-gradient(180deg,#fff 30%,#a1a1a6 100%);
-    -webkit-background-clip:text; background-clip:text;
-    -webkit-text-fill-color:transparent; color:transparent;
-  }
-  .hero-sub{
-    margin-top:clamp(1.25rem,2.5vw,2rem);
-    font-size:clamp(1.0625rem,.9rem + .8vw,1.5rem);
-    font-weight:300; letter-spacing:.08em; color:#86868b;
-  }
-  .hero-note{
-    position:absolute; left:0; right:0;
-    bottom:calc(2.5rem + env(safe-area-inset-bottom,0px));
-    font-size:13px; letter-spacing:.14em; color:#86868b;
-  }
-  @media (max-width:539px){
-    .hero-title{ font-size:19vw; line-height:1.02; letter-spacing:-.04em; }
-    .hero-word{ display:block; }
-  }
-
-  /* ============ 通用板块 ============ */
-  .section{ position:relative; padding-block:clamp(7rem,16vw,13rem); }
-  /* 极细分隔线：两端淡出，而非硬边 */
-  .section::before{
-    content:""; position:absolute; top:0; left:50%;
-    width:min(1080px,calc(100% - 48px)); height:1px;
-    transform:translateX(-50%);
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);
-  }
-  /* 板块小标题：小字距略宽，灰色 */
-  .label{ font-size:17px; font-weight:500; letter-spacing:.04em; color:#86868b; }
-  /* 正文陈述：中等字距，行距宽松，句首白色高亮 */
-  .statement{
-    max-width:22em; margin-inline:auto;
-    font-size:clamp(1.5rem,1.1rem + 1.6vw,2.5rem);
-    font-weight:500; line-height:1.45; letter-spacing:.005em;
-    color:#86868b; text-wrap:balance;
-  }
-  .statement b{ font-weight:inherit; color:#fff; }
-
-  /* LOGO：原图白底黑字，反相为黑底白字，边缘径向淡出融入背景 */
-  .logo{
-    width:100%; height:auto;
-    filter:invert(1) contrast(1.25);
-    -webkit-mask-image:radial-gradient(ellipse 72% 72% at 50% 50%, #000 55%, rgba(0,0,0,.7) 72%, transparent 92%);
-    mask-image:radial-gradient(ellipse 72% 72% at 50% 50%, #000 55%, rgba(0,0,0,.7) 72%, transparent 92%);
-  }
-  /* LOGO 容器：极淡光晕，让标识从黑暗中浮现 */
-  .logo-wrap{
-    position:relative;
-  }
-  .logo-wrap::before{
-    content:""; position:absolute; inset:-12%;
-    background:radial-gradient(ellipse at center, rgba(255,255,255,.06) 0%, transparent 65%);
-    pointer-events:none;
-  }
-  /* 图C纯文字标：正方形原图裁成横条 */
-  .wordmark{ aspect-ratio:12/1; overflow:hidden; }
-  .wordmark img{ width:100%; height:100%; object-fit:cover; object-position:50% 50%; filter:invert(1) contrast(1.25); }
-
-  /* ============ 卡片：弹簧驱动 hover，pointer-down 即时压缩 ============ */
-  .card{
-    position:relative; overflow:hidden;
-    flex:1; display:flex; flex-direction:column; justify-content:flex-end;
-    min-height:clamp(200px,26vw,340px); padding:clamp(28px,3vw,40px);
-    border-radius:22px; border:1px solid rgba(255,255,255,.07);
-    background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0) 45%),rgba(10,10,10,.72);
-    -webkit-backdrop-filter:blur(12px) saturate(130%);
-    backdrop-filter:blur(12px) saturate(130%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 24px 48px -32px rgba(0,0,0,.9);
-    will-change:transform;
-    /* 边框和背景色用 CSS transition，位移由 JS 弹簧驱动 */
-    transition:border-color .4s ease,background-color .4s ease,box-shadow .4s ease;
-    cursor:default;
-  }
-  .card:hover{
-    border-color:rgba(255,255,255,.15);
-    background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,0) 45%),#0e0e0e;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 36px 64px -28px rgba(0,0,0,1);
-  }
-  /* pointer-down 即时反馈：轻微压缩，100ms 内响应 */
-  .card:active{ transform:scale(.985)!important; transition:transform .1s ease-out; }
-  /* 卡片内部光影：鼠标位置产生极淡高光，增强材质感 */
-  .card-glow{
-    position:absolute; inset:0; border-radius:inherit; pointer-events:none;
-    opacity:0; transition:opacity .5s ease;
-    background:radial-gradient(320px circle at var(--cx,50%) var(--cy,50%), rgba(255,255,255,.08) 0%, rgba(255,255,255,.02) 40%, transparent 70%);
-  }
-  .card:hover .card-glow{ opacity:1; }
-  @media (prefers-reduced-motion:reduce),(prefers-reduced-transparency:reduce){
-    .card-glow{ display:none; }
-  }
-  .card-title{
-    font-size:clamp(1.375rem,1.1rem + .8vw,1.75rem);
-    font-weight:600; letter-spacing:-.005em; color:#fff;
-  }
-  .card-text{ margin-top:.75rem; font-size:16px; line-height:1.7; font-weight:300; letter-spacing:.01em; color:#86868b; }
-
-  /* ============ 联系 / 页脚 ============ */
-  .contact-mail{
-    font-size:clamp(1.125rem,.75rem + 2.6vw,3.5rem);
-    font-weight:600; letter-spacing:-.02em; overflow-wrap:anywhere;
-    color:rgba(255,255,255,.92);
-    text-decoration:underline; text-decoration-thickness:1px;
-    text-underline-offset:.28em; text-decoration-color:rgba(255,255,255,.25);
-    transition:color .4s ease,text-decoration-color .4s ease;
-  }
-  .contact-mail:hover{ color:#fff; text-decoration-color:rgba(255,255,255,.9); }
-
-  /* ============ 滚动驱动透明度：由 JS 实时计算，停在哪停在哪 ============ */
-  .js .reveal{ opacity:0; transform:translate3d(0,30px,0); will-change:opacity,transform; }
-  .js .intro{ opacity:0; transform:translate3d(0,20px,0); }
-  /* 减少动态效果时直接显示 */
-  @media (prefers-reduced-motion:reduce){
-    .js .reveal,.js .intro{ opacity:1; transform:none; }
-  }
-
-  /* ============ 每板块独立鼠标光影层 ============ */
-  .section-glow{
-    position:absolute; inset:0; pointer-events:none; overflow:hidden;
-    opacity:0; transition:opacity .6s ease;
-    background:radial-gradient(520px circle at var(--gx,50%) var(--gy,50%), rgba(255,255,255,.05) 0%, rgba(255,255,255,.018) 40%, transparent 72%);
-  }
-  .section-glow.is-active{ opacity:1; }
-  /* 光影层上的极淡毛玻璃：鼠标附近轻微模糊，营造材质呼吸感 */
-  .section-glow::after{
-    content:""; position:absolute; inset:0; pointer-events:none;
-    backdrop-filter:blur(0.5px);
-    -webkit-backdrop-filter:blur(0.5px);
-    opacity:0; transition:opacity .6s ease;
-    background:radial-gradient(380px circle at var(--gx,50%) var(--gy,50%), rgba(255,255,255,.06) 0%, transparent 70%);
-  }
-  .section-glow.is-active::after{ opacity:.6; }
-  @media (prefers-reduced-motion:reduce),(prefers-reduced-transparency:reduce){
-    .section-glow{ display:none; }
-  }
-
-  /* ============ 无障碍：减少动态 / 减少透明 / 高对比 ============ */
-  @media (prefers-reduced-motion:reduce){
-    html{ scroll-behavior:auto; }
-    .card,.card:hover{ transition:none; }
-    .card:active{ transform:none!important; }
-    .mobile-menu,.mobile-menu li{ transition:none; }
-    .nav-toggle:active{ transform:none; }
-  }
-  @media (prefers-reduced-transparency:reduce){
-    .nav{ background:rgba(0,0,0,.92); -webkit-backdrop-filter:none; backdrop-filter:none; }
-    .nav.is-scrolled{ background:#000; }
-    .mobile-menu{ background:#000; -webkit-backdrop-filter:none; backdrop-filter:none; }
-  }
-  @media (prefers-contrast:more){
-    .nav{ border-bottom:1px solid rgba(255,255,255,.3); }
-    .card{ border-color:rgba(255,255,255,.2); }
-    .card:hover{ border-color:rgba(255,255,255,.4); }
-    .statement{ color:#a8a8ad; }
-  }
-
-  /* ============ 鼠标光影层：极淡径向光晕，含蓄跟随 ============ */
-  .cursor-glow{
-    position:fixed; top:0; left:0; width:70vmax; height:70vmax;
-    border-radius:50%; pointer-events:none; z-index:0;
-    background:radial-gradient(circle at center, rgba(255,255,255,.055) 0%, rgba(255,255,255,.02) 35%, transparent 70%);
-    transform:translate3d(-50%,-50%,0);
-    will-change:transform;
-    mix-blend-mode:screen;
-    opacity:0; transition:opacity .8s ease-out;
-  }
-  .cursor-glow.is-active{ opacity:1; }
-  /* 滚动进度条：顶部极细线条 */
-  .scroll-progress{
-    position:fixed; top:0; left:0; height:1px; width:0%;
-    background:linear-gradient(90deg, rgba(255,255,255,.2), rgba(255,255,255,.7));
-    z-index:60; pointer-events:none;
-  }
-  /* 导航当前板块高亮 */
-  .nav-link.is-current{ color:#fff; }
-  /* 减少动态效果 / 减少透明度时关闭光影 */
-  @media (prefers-reduced-motion:reduce), (prefers-reduced-transparency:reduce){
-    .cursor-glow{ display:none; }
-  }
-</style>
+<!-- Apple 风格设计系统 -->
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body class="bg-ink font-sans font-normal text-white antialiased">
-<!-- 鼠标光影层：极淡光晕随鼠标移动，营造材质深度 -->
+<!-- 鼠标光影层 -->
 <div class="cursor-glow" aria-hidden="true"></div>
 <!-- 滚动进度条 -->
 <div class="scroll-progress" aria-hidden="true"></div>
 
-<!-- ================= 1. 导航栏 ================= -->
+<!-- ================= 导航栏 ================= -->
 <header id="nav" class="nav fixed inset-x-0 top-0 z-50">
   <nav class="mx-auto flex h-full max-w-[1080px] items-center justify-between px-6" aria-label="主导航">
     <a href="index.html" class="nav-brand">Beat Ultimate</a>
-    <!-- 桌面菜单 -->
     <ul class="hidden items-center gap-9 md:flex">
       <li><a class="nav-link" href="index.html#brand">关于</a></li>
       <li><a class="nav-link" href="shop.html">商店</a></li>
@@ -317,9 +61,8 @@
 </div>
 
 <main class="relative z-10">
-<!-- ================= 2. Hero 首屏 ================= -->
+<!-- ================= Hero 首屏 ================= -->
 <section id="top" class="hero relative flex flex-col items-center justify-center overflow-hidden px-6 text-center">
-  <!-- data-parallax：标题组随滚动弹簧视差 -->
   <div class="hero-group" data-parallax>
     <div class="intro" style="--d:.15s"><h1 class="hero-title"><span class="hero-word">Beat</span> <span class="hero-word">Ultimate</span></h1></div>
     <p class="hero-sub intro" style="--d:.45s">Apparel · Music · Comic</p>
@@ -327,12 +70,11 @@
   <p class="hero-note intro" style="--d:.9s">我们慢慢构建属于自己的故事</p>
 </section>
 
-<!-- ================= 3. Brand 品牌 ================= -->
+<!-- ================= Brand 品牌 ================= -->
 <section id="brand" class="section">
   <div class="section-glow" aria-hidden="true"></div>
   <div class="mx-auto max-w-[980px] px-6 text-center">
     <h2 class="label reveal">Brand</h2>
-    <!-- 【图B】ULT 圆形徽章纯图形标 -->
     <div class="logo-wrap reveal mx-auto mt-14 w-[clamp(220px,30vw,320px)] md:mt-20" style="--d:.1s">
       <img class="logo" src="assets/logo-badge.jpg" alt="Beat Ultimate ULT 徽章" width="1280" height="1280" loading="lazy">
     </div>
@@ -340,18 +82,16 @@
   </div>
 </section>
 
-<!-- ================= 4. Apparel 服饰 ================= -->
+<!-- ================= Apparel 服饰 ================= -->
 <section id="apparel" class="section">
   <div class="section-glow" aria-hidden="true"></div>
   <div class="mx-auto max-w-[1080px] px-6">
     <div class="text-center">
       <h2 class="label reveal">Apparel</h2>
-      <!-- 【图A】ULT 圆形徽章 + "BEAT ULTIMATE" 文字组合标 -->
       <div class="logo-wrap reveal mx-auto mt-10 w-[clamp(260px,38vw,440px)] md:mt-14" style="--d:.1s">
         <img class="logo" src="assets/logo-combined.jpg" alt="Beat Ultimate 组合标" width="1280" height="1280" loading="lazy">
       </div>
     </div>
-    <!-- 三张卡片：hover 上浮由 JS 弹簧驱动 -->
     <div class="mt-12 grid gap-4 md:mt-16 md:grid-cols-3 md:gap-5">
       <div class="reveal flex" style="--d:0s">
         <article class="card" data-spring-card><div class="card-glow"></div><h3 class="card-title">系列 001</h3><p class="card-text">首批作品，即将发布</p></article>
@@ -369,13 +109,12 @@
   </div>
 </section>
 
-<!-- ================= 5. Music 音乐 ================= -->
+<!-- ================= Music 音乐 ================= -->
 <section id="music" class="section">
   <div class="section-glow" aria-hidden="true"></div>
   <div class="mx-auto max-w-[980px] px-6 text-center">
     <h2 class="label reveal">Music</h2>
     <p class="statement reveal mt-10 md:mt-14" style="--d:.1s"><b>音乐是品牌的情绪载体。</b>每一套服饰系列都搭配专属原创配乐，声音与服装共生。</p>
-    <!-- 【音频播放器占位】示例：<audio controls preload="none" src="music/series-001.mp3" class="w-full"></audio> -->
     <div id="music-player" class="reveal mx-auto mt-14 max-w-[560px] empty:hidden md:mt-20"><!-- 播放器放这里 --></div>
     <div class="reveal mt-10" style="--d:.2s">
       <a href="culture.html#music" class="inline-flex items-center gap-2 text-sm text-[#86868b] transition-colors hover:text-white">聆听更多 <span aria-hidden="true">→</span></a>
@@ -383,13 +122,12 @@
   </div>
 </section>
 
-<!-- ================= 6. Comic 漫画 ================= -->
+<!-- ================= Comic 漫画 ================= -->
 <section id="comic" class="section">
   <div class="section-glow" aria-hidden="true"></div>
   <div class="mx-auto max-w-[980px] px-6 text-center">
     <h2 class="label reveal">Comic</h2>
     <p class="statement reveal mt-10 md:mt-14" style="--d:.1s"><b>持续连载原创漫画，</b>铺展 Beat Ultimate 的世界观，故事长线更新。</p>
-    <!-- 【漫画封面图占位】示例：<img src="comic/cover.jpg" alt="漫画封面" class="w-full rounded-[22px]" loading="lazy"> -->
     <div id="comic-cover" class="reveal mx-auto mt-14 max-w-[420px] empty:hidden md:mt-20"><!-- 封面图放这里 --></div>
     <div class="reveal mt-10" style="--d:.2s">
       <a href="culture.html#comic" class="inline-flex items-center gap-2 text-sm text-[#86868b] transition-colors hover:text-white">阅读更多 <span aria-hidden="true">→</span></a>
@@ -397,7 +135,7 @@
   </div>
 </section>
 
-<!-- ================= 7. Contact 联系 ================= -->
+<!-- ================= Contact 联系 ================= -->
 <section id="contact" class="section">
   <div class="section-glow" aria-hidden="true"></div>
   <div class="mx-auto max-w-[980px] px-6 text-center">
@@ -435,10 +173,9 @@
   </div>
 </div>
 
-<!-- ================= 8. 页脚 ================= -->
+<!-- ================= 页脚 ================= -->
 <footer class="relative z-10 border-t border-white/[0.08] bg-ink">
   <div class="mx-auto max-w-[1080px] px-6 py-16 text-center md:py-20">
-    <!-- 【图C】"BEAT ULTIMATE" 纯文字标 -->
     <div class="wordmark reveal mx-auto w-[clamp(260px,34vw,380px)]">
       <img src="assets/logo-wordmark.jpg" alt="BEAT ULTIMATE" width="2048" height="2048" loading="lazy">
     </div>
